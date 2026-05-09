@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Speech Synthesis</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+        button { padding: 10px 20px; font-size: 16px; margin: 10px; }
+        #log { background: white; padding: 15px; border-radius: 8px; margin-top: 20px; 
+               max-height: 400px; overflow-y: auto; font-family: monospace; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>🎤 Test de Síntesis de Voz</h1>
+    <button onclick="testVoices()">1️⃣ Listar Voces</button>
+    <button onclick="testSpeak()">2️⃣ Hablar "Hola"</button>
+    <button onclick="testUnlock()">3️⃣ Desbloquear</button>
+    <button onclick="testClear()">Limpiar Log</button>
+    
+    <div id="log"></div>
+
+    <script>
+        function log(msg, type = 'info') {
+            const logEl = document.getElementById('log');
+            const line = document.createElement('div');
+            line.className = type;
+            line.textContent = msg;
+            logEl.appendChild(line);
+            logEl.scrollTop = logEl.scrollHeight;
+            console.log(msg);
+        }
+
+        function testVoices() {
+            log('🔍 Buscando voces disponibles...', 'info');
+            if (!window.speechSynthesis) {
+                log('❌ Speech Synthesis NO disponible', 'error');
+                return;
+            }
+            
+            const voces = window.speechSynthesis.getVoices();
+            log(`📢 Total de voces: ${voces.length}`, 'info');
+            
+            voces.forEach((v, i) => {
+                log(`  ${i+1}. ${v.name} (${v.lang})`, 'info');
+            });
+            
+            const vocesBabel = voces.filter(v => v.lang.startsWith('es'));
+            if (vocesBabel.length > 0) {
+                log(`✅ Voces en español encontradas: ${vocesBabel.length}`, 'success');
+            } else {
+                log('⚠️ No hay voces en español', 'error');
+            }
+        }
+
+        function testSpeak() {
+            log('🎤 Intentando hablar...', 'info');
+            if (!window.speechSynthesis) {
+                log('❌ Speech Synthesis NO disponible', 'error');
+                return;
+            }
+
+            window.speechSynthesis.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance('Hola, soy el robot amigo');
+            utterance.lang = 'es-PE';
+            utterance.rate = 0.85;
+            utterance.volume = 1;
+
+            utterance.onstart = () => log('▶️ Voz iniciada', 'success');
+            utterance.onend = () => log('⏹️ Voz terminada', 'success');
+            utterance.onerror = (e) => log(`❌ Error: ${e.error}`, 'error');
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function testUnlock() {
+            log('🔓 Desbloqueando audio...', 'info');
+            if (!window.speechSynthesis) return;
+
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    const u = new SpeechSynthesisUtterance(' ');
+                    u.volume = 0;
+                    u.onstart = () => log(`  → Intento ${i+1}: ▶️`, 'info');
+                    u.onerror = (e) => log(`  → Intento ${i+1}: ❌ ${e.error}`, 'error');
+                    window.speechSynthesis.speak(u);
+                }, i * 200);
+            }
+        }
+
+        function testClear() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        // Intentar cargar voces al cargar página
+        window.addEventListener('load', () => {
+            log('📱 Página cargada', 'info');
+            setTimeout(() => testVoices(), 500);
+        });
+
+        // Event de voiceschanged
+        window.speechSynthesis?.addEventListener('voiceschanged', () => {
+            log('🔔 Evento: voiceschanged (voces cargadas)', 'success');
+            testVoices();
+        });
+    </script>
+</body>
+</html>

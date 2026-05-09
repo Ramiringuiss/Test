@@ -1,0 +1,807 @@
+/* ============================================================
+   index.css — Sistema de diseño "Mi Robot Amigo"
+   Estética: Minecraft vibrante + pixel art + accesibilidad infantil
+   ============================================================ */
+
+/* ── Google Fonts: Press Start 2P (pixel) + Nunito (legible) ── */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&display=swap');
+
+/* ── Variables de diseño ─────────────────────────────────────── */
+:root {
+  /* Paleta principal vibrante */
+  --verde:        #4CAF50;
+  --verde-oscuro: #2E7D32;
+  --verde-claro:  #A5D6A7;
+  --azul:         #1565C0;
+  --azul-claro:   #42A5F5;
+  --amarillo:     #FFD600;
+  --amarillo-osc: #F57F17;
+  --naranja:      #FF6B35;
+  --rojo:         #E53935;
+  --rojo-oscuro:  #B71C1C;
+  --morado:       #7B1FA2;
+  --rosa:         #E91E63;
+
+  /* Fondos */
+  --fondo-juego:  #1a1a2e;
+  --fondo-menu:   #0d1b2a;
+
+  /* Texto */
+  --texto-claro:  #FFFFFF;
+  --texto-oscuro: #1a1a1a;
+
+  /* Bordes pixel art */
+  --borde:        3px solid rgba(0,0,0,0.4);
+  --radio:        4px; /* Casi sin redondeo = look de bloque */
+
+  /* Sombras de bloque (efecto 3D estilo Minecraft) */
+  --sombra-bloque: 
+    inset -4px -4px 0 rgba(0,0,0,0.3),
+    inset 4px 4px 0 rgba(255,255,255,0.15);
+
+  /* Fuentes */
+  --font-pixel:   'Press Start 2P', monospace;
+  --font-cuerpo:  'Nunito', sans-serif;
+}
+
+/* ── Reset y base ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 18px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-cuerpo);
+  background: var(--fondo-juego);
+  color: var(--texto-claro);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  /* Patrón de bloques sutil en el fondo global */
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ── App root ─────────────────────────────────────────────────── */
+.app-root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PANTALLAS (contenedores de página completa)
+   ═══════════════════════════════════════════════════════════════ */
+.pantalla {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Pantalla de Inicio ──────────────────────────────────────── */
+.pantalla-inicio {
+  background: linear-gradient(160deg, #0d1b2a 0%, #1a3a4a 50%, #0d2b1a 100%);
+  justify-content: center;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.inicio-contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 1;
+}
+
+/* Bloques decorativos flotantes */
+.bloques-deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bloque-deco {
+  position: absolute;
+  font-size: 2.5rem;
+  animation: flotar 6s ease-in-out infinite;
+  opacity: 0.4;
+}
+.bloque-deco-0 { top: 5%; left: 5%; animation-delay: 0s; }
+.bloque-deco-1 { top: 10%; right: 8%; animation-delay: 1s; }
+.bloque-deco-2 { bottom: 15%; left: 3%; animation-delay: 2s; }
+.bloque-deco-3 { bottom: 8%; right: 5%; animation-delay: 0.5s; }
+.bloque-deco-4 { top: 40%; left: 2%; animation-delay: 1.5s; }
+.bloque-deco-5 { top: 35%; right: 3%; animation-delay: 2.5s; }
+
+@keyframes flotar {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(5deg); }
+}
+
+/* Título pixel art */
+.titulo-principal {
+  line-height: 1.3;
+}
+.titulo-pixel {
+  font-family: var(--font-pixel);
+  font-size: clamp(1rem, 4vw, 1.6rem);
+  color: var(--amarillo);
+  text-shadow:
+    3px 3px 0 var(--amarillo-osc),
+    6px 6px 0 rgba(0,0,0,0.4);
+  display: block;
+  padding: 0.5rem;
+}
+
+.subtitulo {
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  color: var(--verde-claro);
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* ── Pantalla de Cuentos ─────────────────────────────────────── */
+.pantalla-cuento {
+  justify-content: flex-start;
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.cuento-progreso {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.progreso-dot {
+  font-size: 1.8rem;
+  filter: grayscale(1) opacity(0.4);
+  transition: filter 0.4s, transform 0.3s;
+  transform: scale(0.8);
+}
+.progreso-dot.activo {
+  filter: none;
+  transform: scale(1.1);
+}
+
+.cuento-tarjeta {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
+  border: var(--borde);
+  border-radius: 8px;
+  padding: 1.5rem;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: var(--sombra-bloque);
+}
+
+.cuento-region {
+  font-family: var(--font-pixel);
+  font-size: 0.75rem;
+  color: var(--amarillo);
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.cuento-titulo {
+  font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+  font-weight: 900;
+  color: white;
+  margin-bottom: 0.8rem;
+  line-height: 1.2;
+}
+
+.cuento-texto {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  line-height: 1.7;
+  color: rgba(255,255,255,0.9);
+}
+
+/* Indicador de "leyendo" con ondas */
+.leyendo-indicador {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--amarillo);
+}
+.onda {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--amarillo);
+  border-radius: 50%;
+  animation: pulsar 1s ease-in-out infinite;
+}
+.onda:nth-child(2) { animation-delay: 0.2s; }
+.onda:nth-child(3) { animation-delay: 0.4s; }
+@keyframes pulsar {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(2); }
+}
+
+.cuento-botones {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+/* Pantalla de transición */
+.pantalla-transicion {
+  background: linear-gradient(135deg, #1B5E20, #4CAF50);
+  justify-content: center;
+  align-items: center;
+}
+.transicion-contenido {
+  text-align: center;
+  animation: popIn 0.5s cubic-bezier(.34,1.56,.64,1);
+}
+.transicion-emoji { font-size: 5rem; display: block; margin-bottom: 1rem; }
+.transicion-texto { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 900; }
+@keyframes popIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ── Pantalla de Menú ────────────────────────────────────────── */
+.pantalla-menu {
+  background: var(--fondo-menu);
+  justify-content: flex-start;
+  gap: 1.5rem;
+  padding-top: 2rem;
+}
+
+/* Patrón de bloques en el fondo del menú */
+.menu-fondo-bloques {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.03) 0px,
+      rgba(255,255,255,0.03) 32px,
+      transparent 32px,
+      transparent 64px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.03) 0px,
+      rgba(255,255,255,0.03) 32px,
+      transparent 32px,
+      transparent 64px
+    );
+  pointer-events: none;
+}
+
+.menu-contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 700px;
+  z-index: 1;
+}
+
+.menu-titulo {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.9rem, 3vw, 1.3rem);
+  color: var(--amarillo);
+  text-shadow: 3px 3px 0 var(--amarillo-osc);
+  text-align: center;
+}
+
+/* Grilla de bloques del menú */
+.menu-grilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.2rem;
+  width: 100%;
+}
+
+/* Bloque de juego estilo Minecraft 3D */
+.juego-bloque {
+  background: var(--color-principal);
+  border: 3px solid var(--color-oscuro);
+  border-radius: var(--radio);
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.1s, box-shadow 0.1s;
+  text-align: center;
+  color: var(--color-texto);
+  overflow: hidden;
+
+  /* Sombra de bloque 3D */
+  box-shadow:
+    0 6px 0 var(--color-oscuro),
+    0 8px 10px rgba(0,0,0,0.5);
+}
+
+.juego-bloque:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 9px 0 var(--color-oscuro),
+    0 12px 16px rgba(0,0,0,0.5);
+}
+
+.juego-bloque:active {
+  transform: translateY(3px);
+  box-shadow:
+    0 3px 0 var(--color-oscuro),
+    0 4px 6px rgba(0,0,0,0.4);
+}
+
+/* Cara superior del bloque (efecto 3D) */
+.bloque-cara-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 8px;
+  background: rgba(255,255,255,0.25);
+  pointer-events: none;
+}
+.bloque-cara-side {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 8px;
+  background: rgba(0,0,0,0.2);
+  pointer-events: none;
+}
+
+.bloque-contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  gap: 0.6rem;
+}
+
+.bloque-emoji { font-size: 3rem; line-height: 1; }
+
+.bloque-titulo {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.55rem, 2vw, 0.75rem);
+  line-height: 1.4;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.4);
+}
+
+.bloque-desc {
+  font-size: 0.85rem;
+  font-weight: 700;
+  opacity: 0.9;
+  line-height: 1.3;
+}
+
+/* ── Pantalla de Juego (compartida) ──────────────────────────── */
+.pantalla-juego {
+  background: linear-gradient(180deg, #0d1b2a 0%, #1a2a1a 100%);
+  gap: 1rem;
+  justify-content: flex-start;
+  padding-top: 0;
+}
+
+.juego-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 700px;
+  padding: 0.8rem 1rem;
+  background: rgba(0,0,0,0.4);
+  border-bottom: 3px solid rgba(255,255,255,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.juego-titulo {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.5rem, 2vw, 0.7rem);
+  color: var(--amarillo);
+  text-align: center;
+  flex: 1;
+  padding: 0 0.5rem;
+}
+
+.juego-puntos {
+  font-size: 1.3rem;
+  min-width: 60px;
+  text-align: right;
+  letter-spacing: 2px;
+}
+
+.ronda-indicador {
+  font-family: var(--font-pixel);
+  font-size: 0.6rem;
+  color: var(--verde-claro);
+  padding: 0.3rem 0.8rem;
+  background: rgba(0,0,0,0.3);
+  border-radius: 20px;
+  border: 2px solid var(--verde);
+}
+
+/* Tarjeta de clima */
+.clima-tarjeta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(255,255,255,0.1);
+  border: 3px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  padding: 1.2rem 2rem;
+  width: 100%;
+  max-width: 400px;
+  transition: background 0.3s, border-color 0.3s;
+  box-shadow: var(--sombra-bloque);
+}
+
+.clima-texto {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.7rem, 2.5vw, 1rem);
+  color: white;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.clima-region {
+  font-size: 0.85rem;
+  color: var(--amarillo);
+  font-weight: 700;
+}
+
+.clima-exito {
+  background: rgba(76,175,80,0.3);
+  border-color: var(--verde);
+  animation: pulseVerde 0.5s ease;
+}
+.clima-fallo {
+  background: rgba(229,57,53,0.3);
+  border-color: var(--rojo);
+  animation: shakeX 0.4s ease;
+}
+
+@keyframes shakeX {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-8px); }
+  80% { transform: translateX(8px); }
+}
+
+@keyframes pulseVerde {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+/* Zona de soltar (plato) */
+.plato-zona {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.07);
+  border: 4px dashed rgba(255,255,255,0.3);
+  border-radius: 12px;
+  padding: 1.2rem;
+  min-height: 110px;
+  min-width: 130px;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  cursor: default;
+}
+
+.plato-sobre {
+  background: rgba(255,214,0,0.15);
+  border-color: var(--amarillo);
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255,214,0,0.4);
+}
+
+.plato-emoji { font-size: 2.8rem; line-height: 1; }
+.plato-texto { font-size: 0.85rem; font-weight: 700; text-align: center; opacity: 0.8; }
+
+/* Grilla de comidas/opciones */
+.comidas-grilla {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Carta de comida/elemento arrastrable */
+.comida-carta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255,255,255,0.12);
+  border: 3px solid rgba(255,255,255,0.25);
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  min-width: 100px;
+  min-height: 90px;
+  justify-content: center;
+  user-select: none;
+  touch-action: none;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  cursor: grab;
+  box-shadow: var(--sombra-bloque);
+}
+
+.comida-carta:hover:not(.desactivada) {
+  border-color: var(--amarillo);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.comida-carta.arrastrando {
+  cursor: grabbing;
+}
+
+.comida-carta.desactivada {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.comida-carta.overlay-drag {
+  background: rgba(255,214,0,0.25);
+  border-color: var(--amarillo);
+  transform: rotate(3deg) scale(1.1);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+  cursor: grabbing;
+}
+
+.comida-emoji { font-size: 2.2rem; line-height: 1; }
+.comida-nombre { font-size: 0.75rem; font-weight: 800; text-align: center; line-height: 1.2; }
+
+/* Banner de resultado */
+.resultado-banner {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.7rem, 2.5vw, 1rem);
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  animation: popIn 0.3s cubic-bezier(.34,1.56,.64,1);
+  text-align: center;
+}
+.resultado-banner.exito {
+  background: var(--verde);
+  color: white;
+  border: 3px solid var(--verde-oscuro);
+  box-shadow: 0 4px 0 var(--verde-oscuro);
+}
+.resultado-banner.fallo {
+  background: var(--rojo);
+  color: white;
+  border: 3px solid var(--rojo-oscuro);
+  box-shadow: 0 4px 0 var(--rojo-oscuro);
+}
+
+/* Instrucción textual */
+.instruccion-texto {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--amarillo);
+  margin: 0.3rem 0;
+}
+
+/* ── Pantalla de Victoria ─────────────────────────────────────── */
+.pantalla-victoria {
+  background: linear-gradient(135deg, #1a1a2e, #2E7D32);
+  justify-content: center;
+  align-items: center;
+}
+.victoria-contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  animation: popIn 0.6s cubic-bezier(.34,1.56,.64,1);
+  text-align: center;
+}
+.victoria-titulo {
+  font-family: var(--font-pixel);
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  color: var(--amarillo);
+  text-shadow: 3px 3px 0 var(--amarillo-osc);
+}
+.estrellas { font-size: 2.5rem; letter-spacing: 4px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   ROBOT AMIGO
+   ═══════════════════════════════════════════════════════════════ */
+.robot-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  position: relative;
+}
+
+.robot-avatar {
+  animation: robotIdle 2s ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px rgba(76,175,80,0.5));
+}
+
+@keyframes robotIdle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.robot-burbuja {
+  background: white;
+  color: var(--texto-oscuro);
+  border: 3px solid var(--verde-oscuro);
+  border-radius: 12px;
+  padding: 0.7rem 1.1rem;
+  max-width: 280px;
+  position: relative;
+  box-shadow: 4px 4px 0 var(--verde-oscuro);
+  animation: popIn 0.3s cubic-bezier(.34,1.56,.64,1);
+}
+
+/* Triángulo de la burbuja */
+.robot-burbuja::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: var(--verde-oscuro);
+}
+
+.robot-burbuja-texto {
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  font-weight: 800;
+  line-height: 1.4;
+  display: block;
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BOTONES ESTILO BLOQUE DE MINECRAFT
+   ═══════════════════════════════════════════════════════════════ */
+.btn-bloque {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.5rem, 2vw, 0.75rem);
+  padding: 0.8rem 1.4rem;
+  border: 3px solid;
+  border-radius: var(--radio);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.08s, box-shadow 0.08s;
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1.4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-bloque:active {
+  transform: translateY(3px) !important;
+}
+
+.btn-verde {
+  background: var(--verde);
+  border-color: var(--verde-oscuro);
+  color: white;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+  box-shadow: 0 5px 0 var(--verde-oscuro), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.btn-verde:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--verde-oscuro); }
+
+.btn-amarillo {
+  background: var(--amarillo);
+  border-color: var(--amarillo-osc);
+  color: var(--texto-oscuro);
+  box-shadow: 0 5px 0 var(--amarillo-osc);
+}
+.btn-amarillo:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--amarillo-osc); }
+
+.btn-rojo {
+  background: var(--rojo);
+  border-color: var(--rojo-oscuro);
+  color: white;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+  box-shadow: 0 5px 0 var(--rojo-oscuro);
+}
+.btn-rojo:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--rojo-oscuro); }
+
+.btn-grande {
+  padding: 1rem 2rem;
+  font-size: clamp(0.65rem, 2.5vw, 0.85rem);
+}
+
+.btn-gigante {
+  padding: 1.2rem 2.5rem;
+  font-size: clamp(0.75rem, 3vw, 1rem);
+  min-width: 200px;
+  justify-content: center;
+}
+
+.btn-pequeno {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.5rem;
+}
+
+.btn-icono {
+  font-size: 1.1em;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCESIBILIDAD
+   ═══════════════════════════════════════════════════════════════ */
+:focus-visible {
+  outline: 4px solid var(--amarillo);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  html { font-size: 16px; }
+
+  .menu-grilla {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+  }
+
+  .comidas-grilla {
+    gap: 0.6rem;
+  }
+
+  .comida-carta {
+    min-width: 85px;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .juego-header {
+    padding: 0.6rem;
+  }
+
+  .robot-burbuja {
+    max-width: 240px;
+  }
+}
+
+@media (min-width: 768px) {
+  .pantalla {
+    padding: 2rem;
+  }
+
+  .comidas-grilla {
+    gap: 1.2rem;
+  }
+
+  .comida-carta {
+    min-width: 130px;
+    min-height: 110px;
+  }
+}
