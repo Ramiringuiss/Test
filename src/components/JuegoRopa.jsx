@@ -353,7 +353,7 @@ export default function JuegoRopa({ onVolver }) {
   );
 
   useEffect(() => {
-    const msg = "¡Hola! Vamos a vestir al amiguito. Elige un tono de piel y luego arrastra la ropa. ¡Tú decides cómo queda!";
+    const msg = "Hola, Vamos a vestir al amiguito. Elige un tono de piel y luego arrastra la ropa. ¡Tú decides cómo queda!";
     setRobotMsg(msg);
     hablar(msg);
   }, []);
