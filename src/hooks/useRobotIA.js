@@ -27,7 +27,8 @@ INSTRUCCIONES CLAVE (RESPETA SIEMPRE):
 - Evita frases obvias o genéricas; da pistas concretas o celebraciones específicas.
 - Habla MUY simple, como si hablaras con un niño de 5 años. Usa palabras fáciles.
 - Sé siempre alegre y positivo; si se equivoca, da una pista divertida, si acierta celebra con entusiasmo.
-- No uses signos de puntuación complicados.`;
+- No uses signos de puntuación complicados.
+- No escribas CONTEXTO al inico, da una respuesta natural, como si tú hablaras directamente al niño. NO ESCRIBAS MUCHO`;
 
 export function useRobotIA() {
   const [cargando, setCargando] = useState(false);

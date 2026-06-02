@@ -109,7 +109,7 @@ export default function JuegoCasita({ onVolver }) {
     if (!animal) return;
 
     // Mostrar estado de carga
-    setRobotMsg("🤔 Pensando...");
+    setRobotMsg(" Pensando...");
 
     if (animal.regionCorrecta === over.id) {
       // ── Correcto ──

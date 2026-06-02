@@ -12,42 +12,37 @@ import { useSpeech } from "../hooks/useSpeech";
 const CUENTOS = [
   {
     id: 0,
-    region: "🌊 La Costa",
-    titulo: "El niño y el mar",
+    region: "🌳 El Bosque",
+    titulo: "El Zorrito y la Mariposa",
     texto:
-      "En la costa del Perú, donde el mar es grande y azul, vivía Mateo. " +
-      "Todos los días veía los barcos pesqueros salir tempranito. " +
-      "Los pescadores traían cabrillas, anchovetas y pulpos frescos. " +
-      "¡La costa es rica en peces y tiene playas hermosas!",
-    color: "#0288D1",
-    emoji: "🌊",
-    fondo: "linear-gradient(135deg, #0288D1 0%, #26C6DA 100%)",
+      "Un día, un pequeño zorrito caminaba por el bosque. Él estaba asustado. " +
+      "De pronto, vio una hermosa mariposa. La mariposa volaba y danzaba alegremente. " +
+      "El zorrito preguntó: ¡Mariposa! ¿Por qué estás tan feliz? " +
+      "La mariposa respondió: ¡Mira las flores! ¡Mira el hermoso sol! " +
+      "Entonces el zorrito sonrió y comenzó a bailar junto con la mariposa. " +
+      "Desde ese momento, ambos se hicieron muy buenos amigos.",
+    color: "#F57F17",
+    emoji: "🦊",
+    fondo: "#dcba85",
   },
   {
     id: 1,
-    region: "⛰️ La Sierra",
-    titulo: "La llama y las montañas",
+    region: "🐔 La Granja",
+    titulo: "Cinco Pollitos",
     texto:
-      "En la sierra del Perú, las montañas son muy altas y hace frío. " +
-      "Allí vive Esperanza con su llama llamada Estrella. " +
-      "Ella teje bufandas con lana colorida mientras toma sopita caliente. " +
-      "¡La sierra tiene papas, maíz morado y los tesoros de los Incas!",
-    color: "#5D4037",
-    emoji: "⛰️",
-    fondo: "linear-gradient(135deg, #5D4037 0%, #8D6E63 100%)",
-  },
-  {
-    id: 2,
-    region: "🌴 La Selva",
-    titulo: "El tucán del río grande",
-    texto:
-      "En la selva del Perú, los árboles son gigantes y hay miles de animales. " +
-      "El pequeño Yuri vive cerca del río Amazonas. " +
-      "Cada mañana escucha loros, monos y el tucán de pico colorido. " +
-      "¡La selva es el pulmón del mundo y tiene frutas riquísimas!",
-    color: "#2E7D32",
-    emoji: "🌴",
-    fondo: "linear-gradient(135deg, #1B5E20 0%, #66BB6A 100%)",
+      "Una gallina tenía cinco pollitos. " +
+      "Dice que uno de ellos se fue siguiendo al zorro, solo quedaron cuatro pollitos en su casa. " +
+      "Dice que otro de los pollitos se fue a jugar con el gato, solo quedaron tres pollitos en su casa. " +
+      "Dice que otro de los pollitos se fue a buscar lombrices, solo quedaron dos pollitos en su casa. " +
+      "Dice que otro de los pollitos se fue a rascar la tierra de la chacra, solo quedó un pollito en su casa. " +
+      "Un águila se llevó volando al último pollito. Dice que así, se perdieron todos los pollitos. " +
+      "La mamá gallina los buscó con tristeza. Después, los buscó enojada. " +
+      "Gritaba lleno de su boca, correteaba de arriba a abajo. " +
+      "Entonces la tierra Pachamama tembló. Y desde aquí y desde allá, regresaron los pollitos. " +
+      "Una gallina tenía cinco pollitos. Los criaba a los cinco acurrucados bajo sus alas. Los criaba a los cinco con mucho cariño. Fin.",
+    color: "#FFD600",
+    emoji: "🐥",
+    fondo: "#ecc796",
   },
 ];
 
