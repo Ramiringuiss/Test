@@ -23,7 +23,7 @@ const PRENDAS = [
   { id: "camiseta_costa", zona: "cuerpo",   region: "Costa",  nombre: "Camiseta de Playa",   emoji: "👕", color: "#29B6F6" },
   { id: "poncho_sierra",  zona: "cuerpo",   region: "Sierra", nombre: "Poncho de Lana",       emoji: "🧣", color: "#AB47BC" },
   { id: "cushma_selva",   zona: "cuerpo",   region: "Selva",  nombre: "Cushma",               emoji: "👘", color: "#66BB6A" },
-  { id: "sandalias",      zona: "pies",     region: "Costa",  nombre: "Sandalias",            emoji: "👡", color: "#FF7043" },
+  { id: "sandalias",      zona: "pies",     region: "Costa",  nombre: "Sandalias",            emoji: "🩴", color: "#FF7043" },
   { id: "ojotas",         zona: "pies",     region: "Sierra", nombre: "Ojotas",               emoji: "👟", color: "#8D6E63" },
   { id: "descalzo",       zona: "pies",     region: "Selva",  nombre: "Pie Descalzo",         emoji: "🦶", color: "#C68642" },
   { id: "lentes",         zona: "acc_cara", region: "todos",  nombre: "Lentes",               emoji: "👓", color: "#1565C0" },
