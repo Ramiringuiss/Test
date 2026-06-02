@@ -35,12 +35,12 @@
   --radio:        4px; /* Casi sin redondeo = look de bloque */
 
   /* Sombras de bloque (efecto 3D estilo Minecraft) */
-  --sombra-bloque: 
+  /*--sombra-bloque: 
     inset -4px -4px 0 rgba(0,0,0,0.3),
     inset 4px 4px 0 rgba(255,255,255,0.15);
-
+  */
   /* Fuentes */
-  --font-pixel:   'Press Start 2P', monospace;
+  --font-pixel:   'Nunito', monospace;
   --font-cuerpo:  'Nunito', sans-serif;
 }
 
@@ -134,10 +134,10 @@ body {
   font-family: var(--font-pixel);
   font-size: clamp(1rem, 4vw, 1.6rem);
   color: var(--amarillo);
-  text-shadow:
+  /*text-shadow:
     3px 3px 0 var(--amarillo-osc),
     6px 6px 0 rgba(0,0,0,0.4);
-  display: block;
+  display: block;*/
   padding: 0.5rem;
 }
 
