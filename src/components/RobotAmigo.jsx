@@ -6,6 +6,7 @@
 
 import { useEffect } from "react";
 import { useSpeech } from "../hooks/useSpeech";
+import papapePng from "../papape.png";
 
 /**
  * Props:
@@ -38,43 +39,17 @@ export default function RobotAmigo({
 
   return (
     <div className={`robot-amigo robot-${tamaño} ${cargando ? "robot-cargando" : ""}`}>
-      {/* ── Avatar del Robot (SVG inline para no depender de assets) ── */}
+      {/* ── Avatar de la Papa Peruana Amiga ── */}
       <div className="robot-avatar" aria-hidden="true">
-        <svg
-          width={px}
-          height={px}
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          {/* Cuerpo */}
-          <rect x="20" y="40" width="60" height="45" rx="4" fill="#4CAF50" />
-          {/* Cabeza */}
-          <rect x="25" y="10" width="50" height="35" rx="4" fill="#66BB6A" />
-          {/* Antena */}
-          <rect x="47" y="2" width="6" height="12" rx="2" fill="#FFD700" />
-          <circle cx="50" cy="2" r="4" fill="#FF6B35" />
-          {/* Ojos */}
-          <rect x="33" y="18" width="12" height="10" rx="2" fill="#1A237E" />
-          <rect x="55" y="18" width="12" height="10" rx="2" fill="#1A237E" />
-          {/* Brillo en ojos */}
-          <rect x="35" y="20" width="4" height="4" rx="1" fill="#90CAF9" />
-          <rect x="57" y="20" width="4" height="4" rx="1" fill="#90CAF9" />
-          {/* Boca */}
-          <rect x="36" y="34" width="28" height="6" rx="3" fill="#1A237E" />
-          <rect x="40" y="35" width="5" height="4" rx="1" fill="white" />
-          <rect x="48" y="35" width="5" height="4" rx="1" fill="white" />
-          <rect x="56" y="35" width="5" height="4" rx="1" fill="white" />
-          {/* Brazos */}
-          <rect x="5" y="42" width="15" height="8" rx="3" fill="#4CAF50" />
-          <rect x="80" y="42" width="15" height="8" rx="3" fill="#4CAF50" />
-          {/* Patas */}
-          <rect x="28" y="82" width="16" height="12" rx="3" fill="#388E3C" />
-          <rect x="56" y="82" width="16" height="12" rx="3" fill="#388E3C" />
-          {/* Panel del pecho */}
-          <rect x="32" y="50" width="36" height="20" rx="3" fill="#2E7D32" />
-          <circle cx="42" cy="60" r="5" fill="#FFD700" />
-          <circle cx="58" cy="60" r="5" fill="#FF6B35" />
-        </svg>
+        <img
+          src={papapePng}
+          alt="Papa Peruana Amiga"
+          style={{
+            width: px,
+            height: px,
+            objectFit: "contain",
+          }}
+        />
       </div>
 
       {/* ── Burbuja de diálogo ── */}

@@ -212,7 +212,7 @@ export default function JuegoRopa({ onVolver }) {
               style={{
                 padding: "0.8rem",
                 borderRadius: 8,
-                background: zonaActiva === z.id ? "#FFD600" : "rgba(255,255,255,0.04)",
+                background: zonaActiva === z.id ? "#FFD600" : "rgba(255, 255, 255, 0.98)",
                 color: zonaActiva === z.id ? "#1f1f1f" : "#FFD600",
                 border: zonaActiva === z.id ? "2px solid rgba(0,0,0,0.08)" : "1px solid rgba(255,255,255,0.06)",
                 cursor: "pointer",

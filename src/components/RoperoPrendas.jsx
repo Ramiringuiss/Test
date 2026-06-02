@@ -33,14 +33,14 @@ export default function RoperoPrendas({ prendas, onSeleccionar, onQuitar, zonaAc
     return (
       <div style={{ width: 300, minWidth: 220 }}>
         <div style={{
-          background: "rgba(255,255,255,0.06)",
+          background: "rgba(240,231,219,0.95)",
           borderRadius: 8,
           padding: "0.8rem",
-          border: "1px solid rgba(255,255,255,0.1)",
+          border: "1px solid rgba(0,0,0,0.08)",
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
             <div style={{ fontSize: 28 }}>{zona.emoji}</div>
-            <p style={{ fontSize: "0.95rem", fontWeight: 900, color: "#FFD600", margin: 0 }}>
+            <p style={{ fontSize: "0.95rem", fontWeight: 900, color: "#2E7D32", margin: 0 }}>
               {zona.label}
             </p>
           </div>
@@ -53,23 +53,23 @@ export default function RoperoPrendas({ prendas, onSeleccionar, onQuitar, zonaAc
                   key={prenda.id}
                   onClick={() => onSeleccionar(prenda)}
                   style={{
-                    width: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 12,
-                    padding: "0.6rem",
-                    borderRadius: 10,
-                    border: seleccionada ? "2px solid #FFD600" : "1px solid rgba(255,255,255,0.06)",
-                    background: seleccionada ? "rgba(255,214,0,0.12)" : "rgba(255,255,255,0.03)",
-                    cursor: "pointer",
-                    textAlign: "left",
-                  }}
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 12,
+                      padding: "0.6rem",
+                      borderRadius: 10,
+                      border: seleccionada ? "2px solid #FFD600" : "1px solid rgba(207, 12, 12, 0.85)",
+                      background: seleccionada ? "rgba(255,214,0,0.18)" : "rgba(255,255,255,0.92)",
+                      cursor: "pointer",
+                      textAlign: "left",
+                    }}
                   title={`${prenda.nombre} (${prenda.region})`}
                 >
                   <div style={{ fontSize: 22 }}>{prenda.emoji}</div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 800, color: "#FFF" }}>{prenda.nombre}</div>
-                    <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)" }}>{prenda.region}</div>
+                    <div style={{ fontWeight: 800, color: "#1f1f1f" }}>{prenda.nombre}</div>
+                    <div style={{ fontSize: 12, color: "rgba(0,0,0,0.6)" }}>{prenda.region}</div>
                   </div>
                 </button>
               );
@@ -108,14 +108,14 @@ export default function RoperoPrendas({ prendas, onSeleccionar, onQuitar, zonaAc
         <div 
           key={zona.id}
           style={{
-            background: "rgba(255,255,255,0.06)",
+            background: "rgba(240,231,219,0.95)",
             borderRadius: 8,
             padding: "0.8rem",
             marginBottom: "1rem",
-            border: "1px solid rgba(255,255,255,0.1)",
+            border: "1px solid rgba(0,0,0,0.08)",
           }}
         >
-          <p style={{ fontSize: "0.75rem", fontWeight: 800, color: "#FFD600", marginBottom: "0.6rem" }}>
+          <p style={{ fontSize: "0.75rem", fontWeight: 800, color: "#2E7D32", marginBottom: "0.6rem" }}>
             {zona.label}
           </p>
 
@@ -135,8 +135,8 @@ export default function RoperoPrendas({ prendas, onSeleccionar, onQuitar, zonaAc
                       gap: 12,
                       padding: "0.6rem",
                       borderRadius: 10,
-                      border: seleccionada ? "2px solid #FFD600" : "1px solid rgba(255,255,255,0.06)",
-                      background: seleccionada ? "rgba(255,214,0,0.12)" : "rgba(255,255,255,0.03)",
+                      border: seleccionada ? "2px solid #FFD600" : "1px solid rgba(0,0,0,0.06)",
+                      background: seleccionada ? "rgba(255,214,0,0.18)" : "rgba(255,255,255,0.92)",
                       cursor: "pointer",
                       textAlign: "left",
                     }}
@@ -144,8 +144,8 @@ export default function RoperoPrendas({ prendas, onSeleccionar, onQuitar, zonaAc
                   >
                     <div style={{ fontSize: 22 }}>{prenda.emoji}</div>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: 800, color: "#FFF" }}>{prenda.nombre}</div>
-                      <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)" }}>{prenda.region}</div>
+                      <div style={{ fontWeight: 800, color: "#1f1f1f" }}>{prenda.nombre}</div>
+                      <div style={{ fontSize: 12, color: "rgba(0,0,0,0.6)" }}>{prenda.region}</div>
                     </div>
                   </button>
                 );

@@ -59,7 +59,7 @@ export default function PantallaInicio({ nombreNino, onJugar }) {
           <span className="btn-icono">▶</span> ¡Jugar!
         </button>
 
-        <p style={{ fontSize: "0.75rem", opacity: 0.5, marginTop: "0.5rem" }}>
+        <p className="instruccion-texto" style={{ fontSize: "0.75rem", marginTop: "0.5rem" }}>
           🔊 Activa el volumen de tu dispositivo
         </p>
       </div>
