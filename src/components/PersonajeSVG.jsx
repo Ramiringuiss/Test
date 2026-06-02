@@ -41,28 +41,39 @@ export default function PersonajeSVG({ tonoPiel, prendas }) {
       )}
       {cuerpo?.id === "camiseta_costa" && (
         <g>
-          <rect x="35" y="100" width="50" height="65" rx="6" fill={piel}/>
+          {/* Torso dividido: camiseta arriba y short abajo para evitar franja de piel */}
           <rect x="35" y="100" width="50" height="45" rx="6" fill="#29B6F6"/>
+          <rect x="35" y="145" width="50" height="20" rx="6" fill="#0277BD"/>
           <line x1="42" y1="115" x2="78" y2="115" stroke="white" strokeWidth="2" opacity="0.6"/>
           <line x1="42" y1="123" x2="78" y2="123" stroke="white" strokeWidth="2" opacity="0.6"/>
+          {/* detalle tiro short */}
+          <line x1="58" y1="150" x2="58" y2="162" stroke="#015179" strokeWidth="2" opacity="0.9"/>
         </g>
       )}
       {cuerpo?.id === "poncho_sierra" && (
         <g>
           <rect x="35" y="100" width="50" height="65" rx="6" fill={piel}/>
-          <polygon points="60,98 25,165 95,165" fill="#AB47BC"/>
-          <line x1="60" y1="98" x2="60" y2="165" stroke="#FFD600" strokeWidth="3"/>
-          <line x1="40" y1="130" x2="80" y2="130" stroke="#FFD600" strokeWidth="2"/>
-          <line x1="35" y1="145" x2="85" y2="145" stroke="#FF6B35" strokeWidth="2"/>
+          {/* Poncho más amplio: cubre torso y parte superior de piernas */}
+          <path d="M35 105 Q60 88 85 105 L85 165 Q60 155 35 165 Z" fill="#AB47BC"/>
+          <line x1="40" y1="120" x2="80" y2="120" stroke="#FFD600" strokeWidth="2"/>
+          <line x1="44" y1="136" x2="76" y2="136" stroke="#FF6B35" strokeWidth="2"/>
         </g>
       )}
       {cuerpo?.id === "cushma_selva" && (
         <g>
           <rect x="35" y="100" width="50" height="65" rx="6" fill={piel}/>
-          <rect x="33" y="98" width="54" height="67" rx="6" fill="#66BB6A"/>
-          <rect x="40" y="110" width="40" height="6" rx="1" fill="#FF6B35"/>
-          <rect x="45" y="120" width="30" height="4" rx="1" fill="#FFD600"/>
-          <rect x="40" y="130" width="40" height="4" rx="1" fill="#FF6B35"/>
+          {/* Cushma estilo 'niño de la selva' con patrón y bolsa de plantas */}
+          <rect x="33" y="98" width="54" height="78" rx="10" fill="#66BB6A"/>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <line key={i} x1={36} y1={110 + i * 12} x2={84} y2={110 + i * 12} stroke="#4CAF50" strokeWidth="1" opacity="0.6" />
+          ))}
+          <rect x="40" y="124" width="40" height="8" rx="4" fill="#6D4C41"/>
+          <circle cx="58" cy="132" r="3" fill="#FFD600"/>
+          <g transform="translate(10,128)">
+            <rect x="0" y="8" width="14" height="22" rx="3" fill="#6D4C41"/>
+            <path d="M7 0 C2 6, 2 6, 7 12 C12 6, 12 6, 7 0" fill="#2E7D32"/>
+            <path d="M7 2 C4 6, 4 6, 7 10 C10 6, 10 6, 7 2" fill="#66BB6A" opacity="0.9"/>
+          </g>
         </g>
       )}
 
@@ -107,6 +118,16 @@ export default function PersonajeSVG({ tonoPiel, prendas }) {
             <circle key={`r${i}`} cx={62 + i*4} cy={196} r={2} fill={pielOscura}/>
           ))}
         </>
+      )}
+
+      {/* (Shorts integrados en el bloque de camiseta_costa) */}
+
+      {/* Pantalones cuando usa poncho: cubren parte superior de piernas */}
+      {cuerpo?.id === "poncho_sierra" && (
+        <g>
+          <rect x="40" y="165" width="16" height="33" rx="5" fill="#3E2723"/>
+          <rect x="64" y="165" width="16" height="33" rx="5" fill="#3E2723"/>
+        </g>
       )}
 
       {/* Cuello */}

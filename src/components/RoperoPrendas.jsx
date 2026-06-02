@@ -7,7 +7,7 @@ const PRENDAS = [
   { id: "camiseta_costa", zona: "cuerpo",   region: "Costa",  nombre: "Camiseta de Playa",   emoji: "👕" },
   { id: "poncho_sierra",  zona: "cuerpo",   region: "Sierra", nombre: "Poncho de Lana",       emoji: "🧣" },
   { id: "cushma_selva",   zona: "cuerpo",   region: "Selva",  nombre: "Cushma",               emoji: "👘" },
-  { id: "sandalias",      zona: "pies",     region: "Costa",  nombre: "Sandalias",            emoji: " Swinger" },
+  { id: "sandalias",      zona: "pies",     region: "Costa",  nombre: "Sandalias",            emoji: "🩴" },
   { id: "ojotas",         zona: "pies",     region: "Sierra", nombre: "Ojotas",               emoji: "👟" },
   { id: "descalzo",       zona: "pies",     region: "Selva",  nombre: "Pie Descalzo",         emoji: "🦶" },
   { id: "lentes",         zona: "acc_cara", region: "todos",  nombre: "Lentes",               emoji: "👓" },
