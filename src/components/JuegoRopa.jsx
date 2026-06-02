@@ -123,7 +123,7 @@ export default function JuegoRopa({ onVolver }) {
         setRetoActualIdx(siguienteIdx);
         setRetoActualRegion(siguienteRegion);
         setPrendas({});
-        msg = `¡Correcto! 🎉 Reto ${siguienteIdx + 1} de ${regionesOrden.length}: Ahora ropa de la ${siguienteRegion}`;
+        msg = `¡Correcto!  Reto ${siguienteIdx + 1} de ${regionesOrden.length}: Ahora ropa de la ${siguienteRegion}`;
         hablar(msg);
         setRobotMsg(msg);
       }
