@@ -19,6 +19,7 @@ export default function RobotAmigo({
   hablar = true,
   onFinVoz,
   tamaño = "md",
+  cargando = false,
 }) {
   const { hablar: decir, callar } = useSpeech();
 
@@ -36,7 +37,7 @@ export default function RobotAmigo({
   const px = sizeMap[tamaño] ?? 120;
 
   return (
-    <div className="robot-container" style={{ "--robot-size": `${px}px` }}>
+    <div className={`robot-amigo robot-${tamaño} ${cargando ? "robot-cargando" : ""}`}>
       {/* ── Avatar del Robot (SVG inline para no depender de assets) ── */}
       <div className="robot-avatar" aria-hidden="true">
         <svg
@@ -80,6 +81,13 @@ export default function RobotAmigo({
       {mensaje && (
         <div className="robot-burbuja" role="status" aria-live="polite">
           <span className="robot-burbuja-texto">{mensaje}</span>
+        </div>
+      )}
+      {cargando && (
+        <div className="robot-loading">
+          <span className="robot-punto">●</span>
+          <span className="robot-punto">●</span>
+          <span className="robot-punto">●</span>
         </div>
       )}
     </div>

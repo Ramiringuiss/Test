@@ -39,7 +39,7 @@ const RONDAS = [
   },
   {
     id: "r3",
-    clima: "🌧️ ¡Llueve en la selva!",
+    clima: "¿Que comida se come en la selva?",
     region: "Selva",
     descripcion: "¡Mira cuánta lluvia en la selva! ¿Qué fruta tropical rica eliges?",
     comidas: [

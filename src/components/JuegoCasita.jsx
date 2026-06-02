@@ -23,7 +23,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import RobotAmigo from "./RobotAmigo";
 import { useSpeech } from "../hooks/useSpeech";
-import { useRobotIA } from "../hooks/useRobotIA";
+import { useRobotIACasita } from "../hooks/useRobotIACasita";
 import { useConfeti } from "../hooks/useConfeti";
 
 // ── Datos ─────────────────────────────────────────────────────
@@ -82,12 +82,12 @@ function CasitaDroppable({ casita, acertado }) {
 
 // ── Componente principal ──────────────────────────────────────
 export default function JuegoCasita({ onVolver }) {
-  const [acertados, setAcertados] = useState({}); // { animalId: true }
+  const [acertados, setAcertados] = useState({});
   const [arrastrandoId, setArrastrandoId] = useState(null);
   const [casitasAcertadas, setCasitasAcertadas] = useState({});
   const [robotMsg, setRobotMsg] = useState("Arrastra el animal a su casita 🏠");
   const { hablar } = useSpeech();
-  const { pedirRespuesta } = useRobotIA();
+  const { pedirRespuesta, cargando } = useRobotIACasita();
   const { lanzarConfeti } = useConfeti();
 
   const sensores = useSensors(
@@ -96,26 +96,9 @@ export default function JuegoCasita({ onVolver }) {
   );
 
   useEffect(() => {
-    // Pedimos a la IA un saludo contextualizado al inicio
-    (async () => {
-      try {
-        const resp = await pedirRespuesta({
-          esCorrecta: true,
-          juego: "casita",
-          itemArrastrado: "inicio",
-          destinoCorrecto: "",
-          destinoElegido: "",
-        });
-        const texto = resp?.texto || resp || "¡Encuentra la casita de cada animal! Arrastra cada uno a donde vive.";
-        setRobotMsg(texto);
-        hablar(texto, { omitEmojis: true });
-      } catch (e) {
-        const msg = "¡Encuentra la casita de cada animal! Arrastra cada uno a donde vive.";
-        setRobotMsg(msg);
-        hablar(msg);
-      }
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Mensaje inicial simple sin llamar a la IA
+    const msg = "Arrastra cada animal a su región";
+    setRobotMsg(msg);
   }, []);
 
   const onDragEnd = async ({ active, over }) => {
@@ -124,6 +107,9 @@ export default function JuegoCasita({ onVolver }) {
 
     const animal = ANIMALES.find((a) => a.id === active.id);
     if (!animal) return;
+
+    // Mostrar estado de carga
+    setRobotMsg("🤔 Pensando...");
 
     if (animal.regionCorrecta === over.id) {
       // ── Correcto ──
@@ -135,7 +121,7 @@ export default function JuegoCasita({ onVolver }) {
         destinoElegido: over.id,
         pista: "",
       });
-      const texto = resp?.texto || resp || `¡Sí! El ${animal.nombre} vive en la ${over.id}. ¡Muy bien!`;
+      const texto = resp?.texto || `¡Sí! El ${animal.nombre} vive en la ${over.id}. ¡Muy bien!`;
       setRobotMsg(texto);
       hablar(texto, { omitEmojis: true });
       lanzarConfeti();
@@ -144,22 +130,6 @@ export default function JuegoCasita({ onVolver }) {
       const nuevasCasitas = { ...casitasAcertadas, [over.id]: true };
       setAcertados(nuevosAcertados);
       setCasitasAcertadas(nuevasCasitas);
-
-      if (Object.keys(nuevosAcertados).length === ANIMALES.length) {
-        setTimeout(async () => {
-          const respFin = await pedirRespuesta({
-            esCorrecta: true,
-            juego: "casita",
-            itemArrastrado: "todos los animales",
-            destinoCorrecto: "casitas",
-            destinoElegido: "casitas",
-          });
-          const finMsg = respFin?.texto || respFin || "¡Todos los animales encontraron su casita! ¡Genial!";
-          setRobotMsg(finMsg);
-          hablar(finMsg, { omitEmojis: true });
-          lanzarConfeti();
-        }, 1600);
-      }
     } else {
       // ── Incorrecto ──
       const resp = await pedirRespuesta({
@@ -170,7 +140,7 @@ export default function JuegoCasita({ onVolver }) {
         destinoElegido: over.id,
         pista: "Prueba la casita que dice la región",
       });
-      const texto = resp?.texto || resp || `Hmm, el ${animal.nombre} no vive ahí. ¡Sigue intentando!`;
+      const texto = resp?.texto || `Hmm, el ${animal.nombre} no vive ahí. Sigue intentando`;
       setRobotMsg(texto);
       hablar(texto, { omitEmojis: true });
     }
@@ -230,7 +200,12 @@ export default function JuegoCasita({ onVolver }) {
         </DragOverlay>
       </DndContext>
 
-      <RobotAmigo mensaje={robotMsg} hablar={false} tamaño="sm" />
+      <RobotAmigo
+        mensaje={robotMsg}
+        hablar={false}
+        tamaño="sm"
+        cargando={cargando}
+      />
     </div>
   );
 }
