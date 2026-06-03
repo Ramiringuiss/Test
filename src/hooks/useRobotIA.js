@@ -20,8 +20,7 @@ const ENDPOINT = "/api/gemini";
 const SISTEMA_PROMPT = `Eres "Robot Amigo", un robot educativo simpático, paciente para niños peruanos de 4 a 5 años.
 
 INSTRUCCIONES CLAVE (RESPETA SIEMPRE):
-- Empieza cada respuesta con una breve línea que comience con "Contexto:" y explique en una frase qué hizo el niño (ej.: "Contexto: el niño puso el sombrero en la cabeza").
-- Luego escribe un mensaje corto y directo PARA EL NIÑO (máx 2 frases muy simples).
+- Escribe un mensaje corto y directo PARA EL NIÑO (máx 2 frases muy simples).
 - Al final, añade en una nueva línea: "Feedback al adulto:" seguido de una retroalimentación muy breve (1 frase) y una sugerencia simple para el siguiente turno.
 - Usa emojis REALES (caracteres), no escribas los nombres de los emojis en palabras (NO escribir "cara sonriente" o "confeti" — usa 🎉 si quieres confeti).
 - Evita frases obvias o genéricas; da pistas concretas o celebraciones específicas.
@@ -33,25 +32,39 @@ INSTRUCCIONES CLAVE (RESPETA SIEMPRE):
 export function useRobotIA() {
   const [cargando, setCargando] = useState(false);
 
-  // Respuestas de respaldo si Gemini falla o no hay API key
-  const respuestaLocal = ({ esCorrecta, pista, nombreItem }) => {
-    if (esCorrecta) {
-      const opciones = [
-        `Contexto: el niño acertó.\n¡Sí sí sí! ¡Lo lograste! Eres muy listo 🌟\nFeedback al adulto: Refuerza con un abrazo y repítanlo una vez más.`,
-        `Contexto: el niño acertó.\n¡Qué bien! ¡Eso es correcto! ¡Eres un campeón 🏆!\nFeedback al adulto: Elogia y pasen a la siguiente actividad.`,
-        `Contexto: el niño acertó.\n¡Excelente! ¡Sabías muy bien la respuesta! ¡Bravo 🎉!\nFeedback al adulto: Señala la parte que hizo bien y repite rápido.`,
-        `Contexto: el niño acertó.\n¡Wooow! ¡Correcto! ¡Eres más listo que una llama 🦙!\nFeedback al adulto: Aplaude y ofrécele elegir otra prenda.`,
-      ];
-      return opciones[Math.floor(Math.random() * opciones.length)];
-    } else {
-      const opciones = [
-        `Contexto: el niño se equivocó.\n¡Casi casi! Piensa un poquito más. ${pista || "¡Tú puedes! 💪"}\nFeedback al adulto: Ofrece una pista enfocada en la zona correcta.`,
-        `Contexto: el niño se equivocó.\n¡Uy, no era esa! Pero no te rindas. ${pista || "¡Inténtalo de nuevo! 🌈"}\nFeedback al adulto: Repite lentamente la instrucción y muestra el ejemplo.`,
-        `Contexto: el niño se equivocó.\n¡Hmm, piénsalo bien! ${pista || "¡Mira bien las opciones! 👀"}\nFeedback al adulto: Señala la prenda correcta y nombra la región.`,
-        `Contexto: el niño se equivocó.\n¡No importa! Los errores nos enseñan. ${pista || "¡Vuelve a intentarlo! ⭐"}\nFeedback al adulto: Dale tiempo, no corrijas de inmediato.`,
-      ];
-      return opciones[Math.floor(Math.random() * opciones.length)];
+  // Respuestas de respaldo simplificadas: enfocadas en 'comida'.
+  // Mensajes ya no incluyen la palabra "Contexto" al inicio y usan
+  // las variables `destinoElegido` / `destinoCorrecto` para construir
+  // frases muy breves cuando la respuesta es incorrecta.
+  const respuestaLocal = ({ esCorrecta, pista, nombreItem, juego, destinoCorrecto, destinoElegido }) => {
+    const item = nombreItem || "esto";
+    const pistaTxt = pista || "Mira las pistas";
+
+    const comida = {
+      correcto: [
+        `¡Buenísimo! ${item} es perfecto.\nFeedback al adulto: Comenta por qué es adecuado.`,
+        `¡Muy bien! Esa comida va muy bien.\nFeedback al adulto: Elogia y pregunta más.`,
+        `¡Genial! Excelente elección.\nFeedback al adulto: Pide que explique por qué.`,
+        `¡Perfecto! Lo hiciste muy bien.\nFeedback al adulto: Anima a conversar sobre la comida.`,
+      ],
+      incorrecto: [
+        `No, el lugar de la comida es ${destinoElegido}. Lo correcto es ${destinoCorrecto}.\nFeedback al adulto: Señala la pista y muestra la comida correcta.`,
+        `No, el lugar de la comida es ${destinoElegido}. La correcta es ${destinoCorrecto}.\nFeedback al adulto: Repítelo con calma y muestra un ejemplo.`,
+        `No, el lugar de la comida es ${destinoElegido}. Mejor: ${destinoCorrecto}.\nFeedback al adulto: Da una pista visual sobre la comida.`,
+        `Casi — el lugar de la comida es ${destinoElegido}. Lo correcto: ${destinoCorrecto}.\nFeedback al adulto: Repite la instrucción en voz baja.`,
+      ],
+    };
+
+    if (juego === "comida") {
+      const arr = esCorrecta ? comida.correcto : comida.incorrecto;
+      return arr[Math.floor(Math.random() * arr.length)];
     }
+
+    // Para otros juegos, devolver un mensaje neutro corto (no tocar ropa/casita aquí).
+    const fallback = esCorrecta
+      ? `¡Muy bien!\nFeedback al adulto: Elogia el intento.`
+      : `Intenta otra vez.\nFeedback al adulto: Guía con una pista simple.`;
+    return fallback;
   };
 
   const pedirRespuesta = useCallback(async ({
@@ -63,89 +76,81 @@ export function useRobotIA() {
     pista,         // string: pista humana como respaldo
   }) => {
     // Si no hay API key ni URL personalizada, usar respuestas locales
-    if (!API_KEY && !CUSTOM_URL) {
-      return respuestaLocal({ esCorrecta, pista, nombreItem: itemArrastrado });
-    }
-
+    // (pero igualmente intentamos las endpoints públicas de delirius si están disponibles)
     setCargando(true);
 
-    const contexto = esCorrecta
-      ? `El niño arrastró "${itemArrastrado}" al lugar correcto (${destinoCorrecto}). ¡Acertó!`
-      : `El niño arrastró "${itemArrastrado}" a "${destinoElegido}" pero debía ir a "${destinoCorrecto}". Se equivocó.`;
-
+    // Construimos un prompt claro y breve para la API — sin repetir la palabra
+    // "Contexto" y con instrucciones explícitas para el caso de comida.
     const prompt = `${SISTEMA_PROMPT}
 
 Juego actual: ${juego}
-Situación: ${contexto}
+Item: ${itemArrastrado}
+Elegido por el niño: ${destinoElegido}
+Respuesta correcta: ${destinoCorrecto}
+Resultado: ${esCorrecta ? "correcto" : "incorrecto"}
 
-Responde con UN mensaje corto y alegre para el niño. Solo el mensaje, sin comillas.`;
+INSTRUCCIONES (RESPONDE SOLO LO PEDIDO):
+- Si es correcto: escribe una frase muy breve de felicitación para el niño (máx 2 frases cortas).
+- Si es incorrecto: escribe UNA frase muy breve que diga qué puso el niño y cuál es la respuesta correcta.
+  Ejemplo: "No, pusiste ${destinoElegido}. Lo correcto es ${destinoCorrecto}."
+- Después, en una nueva línea escribe: "Feedback al adulto:" y una frase muy breve con una sugerencia.
+- Usa lenguaje sencillo, usa emojis si quieres, y NO incluyas la palabra "Contexto" al inicio.
+
+Responde SOLO el texto solicitado, sin explicaciones adicionales.`;
+
+    const encoded = encodeURIComponent(prompt);
+    const primaryUrl = `https://api.delirius.store/ia/gemini?query=${encoded}`;
+    const backupUrl = `https://api.delirius.store/ia/chatgpt?q=${encoded}`;
+
+    // fetch con timeout
+    const fetchWithTimeout = async (url, timeout = 3000, options = {}) => {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeout);
+      try {
+        const res = await fetch(url, { signal: controller.signal, ...options });
+        clearTimeout(id);
+        return res;
+      } catch (err) {
+        clearTimeout(id);
+        throw err;
+      }
+    };
 
     try {
-      let res;
-
-      if (CUSTOM_URL) {
-        // Llamar a la API externa de tu amigo (espera ?query=... o similar)
-        const sep = CUSTOM_URL.includes("?") ? "&" : "?";
-        const url = `${CUSTOM_URL}${sep}query=${encodeURIComponent(prompt)}`;
-        res = await fetch(url, { method: "GET", headers: { Accept: "application/json" } });
-      } else {
-        // Usar proxy dev de Vite que reenvía al endpoint de Google (evita CORS)
-        res = await fetch(ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            prompt: { text: prompt },
-            temperature: 0.9,
-            maxOutputTokens: 80,
-          }),
-        });
-      }
-
-      if (!res.ok) throw new Error(`IA error: ${res.status}`);
-
-      // Leer raw y parsear si es JSON
-      const raw = await res.clone().text();
-      let texto = null;
-      let data = null;
+      // Intento 1: primary delirius
       try {
-        data = JSON.parse(raw);
-      } catch (e) {
-        data = null;
-      }
-
-      // Logs para depuración de la API externa
-      console.debug("IA raw response:", raw);
-      if (data) console.debug("IA parsed JSON:", data);
-
-      if (data) {
-        // Manejar formatos comunes: { text }, { message }, { result }, { output }
-        texto = data?.text || data?.message || data?.result || data?.output;
-        if (!texto && data?.candidates) {
-          texto = data.candidates[0]?.output || data.candidates[0]?.content?.parts?.[0]?.text;
+        const res1 = await fetchWithTimeout(primaryUrl, 3000);
+        if (res1.ok) {
+          const data1 = await res1.json();
+          const textoRaw = data1?.data?.result || data1?.result || data1?.output || data1?.text || JSON.stringify(data1);
+          const textoStr = (textoRaw || "").toString().trim();
+          const parts = textoStr.split(/Feedback al adulto:/i);
+          return { texto: (parts[0] || textoStr).trim(), feedback: parts[1] ? parts[1].trim() : null };
+        }
+        throw new Error(`Primary status ${res1.status}`);
+      } catch (errPrimary) {
+        console.warn("Primary IA failed or timed out, trying backup:", errPrimary.message || errPrimary);
+        // Intento 2: backup
+        try {
+          const res2 = await fetchWithTimeout(backupUrl, 3000);
+          if (res2.ok) {
+            const data2 = await res2.json();
+            const textoRaw2 = data2?.data?.result || data2?.result || data2?.output || data2?.text || JSON.stringify(data2);
+            const textoStr2 = (textoRaw2 || "").toString().trim();
+            const parts2 = textoStr2.split(/Feedback al adulto:/i);
+            return { texto: (parts2[0] || textoStr2).trim(), feedback: parts2[1] ? parts2[1].trim() : null };
+          }
+          throw new Error(`Backup status ${res2.status}`);
+        } catch (errBackup) {
+          console.warn("Backup IA failed or timed out, using local response:", errBackup.message || errBackup);
+          const local = respuestaLocal({ esCorrecta, pista, nombreItem: itemArrastrado, juego, destinoCorrecto, destinoElegido });
+          const lp = local.split(/Feedback al adulto:/i);
+          return { texto: (lp[0] || local).trim(), feedback: (lp[1] || null) };
         }
       }
-
-      if (!texto) texto = raw;
-
-      texto = (texto || "").toString().trim();
-
-      // Si la IA responde en texto libre, intentamos extraer la parte para el niño
-      // y la retroalimentación al adulto. Buscamos la marca "Feedback al adulto:".
-      const parts = texto.split(/Feedback al adulto:/i);
-      const main = (parts[0] || "").trim();
-      const feedback = parts[1] ? parts[1].trim() : null;
-
-      if (main) {
-        return { texto: main, feedback };
-      }
-
-      // Fallback a respuesta local estructurada
-      const local = respuestaLocal({ esCorrecta, pista, nombreItem: itemArrastrado });
-      const lp = local.split(/Feedback al adulto:/i);
-      return { texto: (lp[0] || local).trim(), feedback: (lp[1] || null) };
-    } catch (err) {
-      console.warn("Gemini no disponible, usando respuesta local:", err.message || err);
-      const local = respuestaLocal({ esCorrecta, pista, nombreItem: itemArrastrado });
+    } catch (fatal) {
+      console.error("IA endpoints failed, returning local:", fatal.message || fatal);
+      const local = respuestaLocal({ esCorrecta, pista, nombreItem: itemArrastrado, juego, destinoCorrecto, destinoElegido });
       const lp = local.split(/Feedback al adulto:/i);
       return { texto: (lp[0] || local).trim(), feedback: (lp[1] || null) };
     } finally {

@@ -82,6 +82,12 @@ export default function JuegoRopa({ onVolver }) {
     setModo("libre");
   }, [hablar]);
 
+  // Iniciar directamente en modo reto al montar (oculta selección de modos)
+  useEffect(() => {
+    iniciarReto();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const seleccionarPrenda = (prenda) => {
     setPrendas(prev => ({
       ...prev,
