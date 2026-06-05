@@ -21,6 +21,7 @@
   --rojo-oscuro:  #B71C1C;
   --morado:       #7B1FA2;
   --rosa:         #E91E63;
+  --negro:        #1a1a2e;
 
   /* Fondos */
   --primary-bg: #f0e7db; /* Color principal de la app */
@@ -30,7 +31,7 @@
   --fondo-menu:   linear-gradient(160deg, var(--primary-bg) 0%, #42A5F5 50%, #0d1b2a 100%);
 
   /* Texto */
-  --texto-claro:  #FFFFFF;
+  --texto-claro:  #000000;
   --texto-oscuro: #2c2c2d;
 
   /* Bordes pixel art */
@@ -211,6 +212,57 @@ body {
   box-shadow: var(--sombra-bloque);
 }
 
+/* Marco alegre para el video del primer cuento */
+.cuento-video-frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #fff7e6 0%, #ffe3f1 100%);
+  border: 4px solid #ffcb6b;
+  border-radius: 12px;
+  padding: 0.6rem;
+  box-shadow: 0 8px 0 rgba(255, 176, 64, 0.25), 0 12px 20px rgba(0,0,0,0.12);
+}
+
+.cuento-video {
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  border-radius: 8px;
+  outline: 6px solid rgba(255,255,255,0.6);
+  background: #000;
+}
+
+/* Overlay grande y colorido de play centrado */
+.video-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.video-play-button {
+  pointer-events: auto;
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecf70 100%);
+  border: 4px solid #ffd166;
+  color: #2b2b2b;
+  font-family: var(--font-pixel);
+  font-size: 2.6rem;
+  width: 110px;
+  height: 110px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 0 rgba(0,0,0,0.12), 0 18px 30px rgba(0,0,0,0.12);
+  cursor: pointer;
+}
+.video-play-button:active { transform: translateY(3px); }
+
+/* Asegurar que el frame permita posicionar overlay */
+.cuento-video-frame { position: relative; }
+
 .cuento-region {
   font-family: var(--font-pixel);
   font-size: 0.75rem;
@@ -222,7 +274,7 @@ body {
 .cuento-titulo {
   font-size: clamp(1.3rem, 3.5vw, 1.8rem);
   font-weight: 900;
-  color: white;
+  color: rgb(0, 0, 0);
   margin-bottom: 0.8rem;
   line-height: 1.2;
 }
@@ -230,7 +282,7 @@ body {
 .cuento-texto {
   font-size: clamp(1rem, 2.5vw, 1.2rem);
   line-height: 1.7;
-  color: rgba(255,255,255,0.9);
+  color: rgba(0, 0, 0, 0.9);
 }
 
 /* Indicador de "leyendo" con ondas */
@@ -240,13 +292,13 @@ body {
   gap: 0.4rem;
   margin-top: 1rem;
   font-size: 0.85rem;
-  color: var(--amarillo);
+  color: var(--negro);
 }
 .onda {
   display: inline-block;
   width: 6px;
   height: 6px;
-  background: var(--amarillo);
+  background: var(--negro);
   border-radius: 50%;
   animation: pulsar 1s ease-in-out infinite;
 }
@@ -265,9 +317,12 @@ body {
   margin-top: 0.5rem;
 }
 
-/* Pantalla de transición */
 .pantalla-transicion {
-  background: linear-gradient(135deg, #f0e7db 0%, var(--verde) 100%);
+  /* Fondo con la imagen `fondo.png` y una capa semitransparente para opacidad */
+  background-image: linear-gradient(rgba(240,231,219,var(--overlay-alpha)), rgba(240,231,219,var(--overlay-alpha))), url('./fondo.png');
+  background-size: cover, cover;
+  background-position: center center, center center;
+  background-repeat: no-repeat, no-repeat;
   justify-content: center;
   align-items: center;
 }
@@ -331,7 +386,7 @@ body {
   font-family: var(--font-pixel);
   font-size: clamp(0.9rem, 3vw, 1.3rem);
   color: var(--amarillo);
-  text-shadow: 3px 3px 0 var(--amarillo-osc);
+  /* text-shadow: 3px 3px 0 var(--amarillo-osc); */
   text-align: center;
 }
 
@@ -359,7 +414,7 @@ body {
   /* Sombra de bloque 3D */
   box-shadow:
     0 6px 0 var(--color-oscuro),
-    0 8px 10px rgba(0,0,0,0.5);
+    0 8px 10px rgba(0, 0, 0, 0.617);
 }
 
 .juego-bloque:hover {
@@ -448,7 +503,7 @@ body {
   font-family: var(--font-pixel);
   font-size: clamp(0.55rem, 2vw, 0.75rem);
   line-height: 1.4;
-  text-shadow: 2px 2px 0 rgba(0,0,0,0.4);
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0);
 }
 
 .bloque-desc {
@@ -487,8 +542,8 @@ body {
 
 .juego-titulo {
   font-family: var(--font-pixel);
-  font-size: clamp(0.5rem, 2vw, 0.7rem);
-  color: var(--amarillo);
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  color: var(--rojo-oscuro);
   text-align: center;
   flex: 1;
   padding: 0 0.5rem;
@@ -503,10 +558,10 @@ body {
 
 .ronda-indicador {
   font-family: var(--font-pixel);
-  font-size: 0.6rem;
-  color: var(--verde-claro);
+  font-size: 1rem;
+  color: var(--verde-oscuro);
   padding: 0.3rem 0.8rem;
-  background: rgba(0,0,0,0.3);
+  background: rgb(255, 255, 255);
   border-radius: 20px;
   border: 2px solid var(--verde);
 }
@@ -530,14 +585,14 @@ body {
 .clima-texto {
   font-family: var(--font-pixel);
   font-size: clamp(0.7rem, 2.5vw, 1rem);
-  color: white;
+  color: rgb(54, 3, 3);
   text-align: center;
   line-height: 1.6;
 }
 
 .clima-region {
   font-size: 0.85rem;
-  color: var(--amarillo);
+  color: var(--negro);
   font-weight: 700;
 }
 
@@ -573,8 +628,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: rgba(255,255,255,0.07);
-  border: 4px dashed rgba(255,255,255,0.3);
+  background: rgba(248, 224, 162);
+  border: 4px dashed rgb(242, 226, 75);
   border-radius: 12px;
   padding: 1.2rem;
   min-height: 110px;
@@ -609,8 +664,8 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 0.4rem;
-  background: rgba(255,255,255,0.12);
-  border: 3px solid rgba(255,255,255,0.25);
+  background: rgba(248, 40, 71, 0.644);
+  border: 3px solid rgba(86, 8, 24, 0.609);
   border-radius: 8px;
   padding: 0.8rem 1rem;
   min-width: 100px;
@@ -626,7 +681,7 @@ body {
 .comida-carta:hover:not(.desactivada) {
   border-color: var(--amarillo);
   transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.819);
 }
 
 .comida-carta.arrastrando {

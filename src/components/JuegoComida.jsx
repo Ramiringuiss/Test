@@ -30,7 +30,7 @@ const RONDAS = [
     id: "r2",
     clima: "❄️ ¡Hace mucho frío!",
     region: "Sierra",
-    descripcion: "¡Brr brr, qué frío hace en las montañas de la sierra! ¿Qué comida te calienta?",
+    descripcion: "¡Qué frío hace en las montañas de la sierra! ¿Qué comida te calienta?",
     comidas: [
       { id: "c4", nombre: "Helado", correcta: false, emoji: "🍦", pista: "El helado nos da más frío todavía" },
       { id: "c5", nombre: "Chuño con queso", correcta: true,  emoji: "🧀", pista: "El chuño con queso es calientito y muy rico de la sierra" },
@@ -174,7 +174,7 @@ export default function JuegoComida({ onVolver }) {
     <div className="pantalla pantalla-juego">
       <header className="juego-header">
         <button className="btn-bloque btn-rojo btn-pequeno" onClick={onVolver}>◀ Menú</button>
-        <h2 className="juego-titulo">🍲 ¿Qué Comemos Hoy?</h2>
+        <h2 className="juego-titulo">¿Qué Comemos Hoy?</h2>
         <div className="juego-puntos" aria-label={`${puntos} puntos`}>{"⭐".repeat(puntos)}{puntos === 0 ? "☆☆☆" : ""}</div>
       </header>
 
@@ -205,7 +205,7 @@ export default function JuegoComida({ onVolver }) {
       </DndContext>
 
       <RobotAmigo
-        mensaje={cargandoIA ? "Pensando... 🤔" : robotMsg}
+        mensaje={cargandoIA ? "Pensando... " : robotMsg}
         hablar={false}
         tamaño="sm"
       />

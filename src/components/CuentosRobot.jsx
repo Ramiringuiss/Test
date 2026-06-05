@@ -4,15 +4,16 @@
 // Al terminar el 3er cuento llama a onCuentosTerminados().
 // ============================================================
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import RobotAmigo from "./RobotAmigo";
 import { useSpeech } from "../hooks/useSpeech";
+import espaVideo from "../espa.mp4";
 
 // ── Datos de los 3 cuentos ────────────────────────────────────
 const CUENTOS = [
   {
     id: 0,
-    region: "🌳 El Bosque",
+    region: "El Bosque",
     titulo: "El Zorrito y la Mariposa",
     texto:
       "Un día, un pequeño zorrito caminaba por el bosque. Él estaba asustado. " +
@@ -27,7 +28,7 @@ const CUENTOS = [
   },
   {
     id: 1,
-    region: "🐔 La Granja",
+    region: "La Granja",
     titulo: "Cinco Pollitos",
     texto:
       "Una gallina tenía cinco pollitos. " +
@@ -40,7 +41,7 @@ const CUENTOS = [
       "Gritaba lleno de su boca, correteaba de arriba a abajo. " +
       "Entonces la tierra Pachamama tembló. Y desde aquí y desde allá, regresaron los pollitos. " +
       "Una gallina tenía cinco pollitos. Los criaba a los cinco acurrucados bajo sus alas. Los criaba a los cinco con mucho cariño. Fin.",
-    color: "#FFD600",
+    color: "#cdab01",
     emoji: "🐥",
     fondo: "#ecc796",
   },
@@ -50,14 +51,23 @@ const CUENTOS = [
 export default function CuentosRobot({ nombreNino, onCuentosTerminados }) {
   const [indiceCuento, setIndiceCuento] = useState(0);
   const [leyendo, setLeyendo] = useState(false);
+  const [videoStarted, setVideoStarted] = useState(false);
   const [terminado, setTerminado] = useState(false);
   const { hablar, callar } = useSpeech();
+  const videoRef = useRef(null);
 
   const cuento = CUENTOS[indiceCuento];
 
   // ── Lee el cuento actual al cargar o cambiar de cuento ──────
   const leerCuento = useCallback(
     (cuento, esUltimo) => {
+      // Para el primer cuento (video) no usar TTS: esperar a que el usuario pulse play.
+        if (cuento.id === 0) {
+          setLeyendo(false);
+          setVideoStarted(false);
+          return;
+        }
+
       setLeyendo(true);
       const texto = `${cuento.region}. ${cuento.titulo}. ${cuento.texto}`;
 
@@ -81,9 +91,15 @@ export default function CuentosRobot({ nombreNino, onCuentosTerminados }) {
   useEffect(() => {
     const esUltimo = indiceCuento === CUENTOS.length - 1;
     leerCuento(cuento, esUltimo);
+    if (cuento.id === 0) {
+      // Indicar al niño que debe tocar el botón para ver el video
+      hablar("Toca el botón del video para ver el cuento");
+    }
     return () => callar();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [indiceCuento]);
+
+  // No autoplay: el usuario debe pulsar el botón central para iniciar el video.
 
   // ── Avanzar al siguiente cuento manualmente ─────────────────
   const avanzar = () => {
@@ -118,7 +134,7 @@ export default function CuentosRobot({ nombreNino, onCuentosTerminados }) {
   return (
     <div
       className="pantalla pantalla-cuento"
-      style={{ background: cuento.fondo }}
+      style={{ backgroundColor: cuento.fondo }}
     >
       {/* ── Indicador de progreso (3 bolitas) ─────────────── */}
       <div className="cuento-progreso" role="progressbar" aria-valuenow={indiceCuento + 1} aria-valuemax={3}>
@@ -137,7 +153,56 @@ export default function CuentosRobot({ nombreNino, onCuentosTerminados }) {
       <div className="cuento-tarjeta">
         <div className="cuento-region">{cuento.region}</div>
         <h2 className="cuento-titulo">{cuento.titulo}</h2>
-        <p className="cuento-texto">{cuento.texto}</p>
+        {cuento.id === 0 ? (
+            <div className="cuento-video-frame" role="region" aria-label="Video cuento El Zorrito y la Mariposa">
+              <video
+                ref={videoRef}
+                src={espaVideo}
+                className="cuento-video"
+                controls={videoStarted}
+                playsInline
+                onPlay={() => {
+                  setLeyendo(true);
+                  setVideoStarted(true);
+                }}
+                onPause={() => setLeyendo(false)}
+                onEnded={() => {
+                  setLeyendo(false);
+                  setVideoStarted(false);
+                  avanzar();
+                }}
+              />
+
+              {!videoStarted && (
+                <div className="video-play-overlay" aria-hidden={false}>
+                  <button
+                    className="video-play-button"
+                    aria-label="Reproducir cuento"
+                    onClick={() => {
+                      const v = videoRef.current;
+                      if (!v) return;
+                      const p = v.play();
+                      if (p && p.then) {
+                        p.then(() => {
+                          setVideoStarted(true);
+                          setLeyendo(true);
+                        }).catch(() => {
+                          // reproducción bloqueada o error
+                        });
+                      } else {
+                        setVideoStarted(true);
+                        setLeyendo(true);
+                      }
+                    }}
+                  >
+                    ▶
+                  </button>
+                </div>
+              )}
+            </div>
+        ) : (
+          <p className="cuento-texto">{cuento.texto}</p>
+        )}
 
         {/* Indicador visual de "leyendo" */}
         {leyendo && (

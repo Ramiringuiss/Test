@@ -235,7 +235,7 @@ export default function JuegoRopa({ onVolver }) {
             </button>
           ))}
 
-          <div style={{ marginTop: 12, textAlign: "center", color: "#6c2f24", fontSize: "0.85rem" }}>
+          <div style={{ marginTop: 12, textAlign: "center", color: "#111010", fontSize: "1rem" }}>
             {Object.keys(prendas).length === 0 ? "Elige ropa →" : `Prendas: ${Object.keys(prendas).length}`}
           </div>
         </div>

@@ -42,9 +42,22 @@ export default function MenuJuegos({ onSeleccionarJuego }) {
   const { hablar } = useSpeech();
 
   useEffect(() => {
-    hablar(
-      "¡Muy bien! Escuchaste todos los cuentos. Ahora elige un juego. ¿A cuál quieres jugar?"
-    );
+    try {
+      const key = "menuVisits";
+      const prev = parseInt(localStorage.getItem(key) || "0", 10) || 0;
+      const visits = prev + 1;
+      localStorage.setItem(key, String(visits));
+
+      const mensaje =
+        visits === 1
+          ? "¡Muy bien! Escuchaste todos los cuentos. Ahora elige un juego. ¿A cuál quieres jugar?"
+          : "Elige un juego. ¿A cuál quieres jugar?";
+
+      hablar(mensaje);
+    } catch (e) {
+      // En entornos donde no exista localStorage, caer a mensaje por defecto
+      hablar("¡Muy bien! Escuchaste todos los cuentos. Ahora elige un juego. ¿A cuál quieres jugar?");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -57,7 +70,7 @@ export default function MenuJuegos({ onSeleccionarJuego }) {
         <h1 className="menu-titulo">🎮 ¿A qué jugamos?</h1>
 
         <RobotAmigo
-          mensaje="¡Toca un bloque para jugar! 🎯"
+          mensaje="¡Toca un bloque para jugar!"
           hablar={false}
           tamaño="sm"
         />
