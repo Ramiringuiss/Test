@@ -266,8 +266,8 @@ body {
 
 .cuento-region {
   font-family: var(--font-pixel);
-  font-size: 0.75rem;
-  color: var(--amarillo);
+  font-size: 1.50rem;
+  color: var(--rojo-oscuro);
   margin-bottom: 0.5rem;
   letter-spacing: 1px;
 }

@@ -32,7 +32,7 @@ const CUENTOS = [
     titulo: "Cinco Pollitos",
     texto:
       "Una gallina tenía cinco pollitos. " +
-      "Dice que uno de ellos se fue siguiendo al zorro, solo quedaron cuatro pollitos en su casa. " +
+      "Dice que uno de ellos se fue siguiendo al zorro, solo quedaron cuatro pollitos en su casa." +
       "Dice que otro de los pollitos se fue a jugar con el gato, solo quedaron tres pollitos en su casa. " +
       "Dice que otro de los pollitos se fue a buscar lombrices, solo quedaron dos pollitos en su casa. " +
       "Dice que otro de los pollitos se fue a rascar la tierra de la chacra, solo quedó un pollito en su casa. " +
