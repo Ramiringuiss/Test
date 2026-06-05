@@ -3,8 +3,8 @@
    Estética: Minecraft vibrante + pixel art + accesibilidad infantil
    ============================================================ */
 
-/* ── Google Fonts: Press Start 2P (pixel) + Nunito (legible) + Changa One (títulos) ── */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&family=Changa+One&display=swap');
+/* ── Google Fonts: Press Start 2P (pixel) + Nunito (legible) + Signika (cuerpo) ── */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&family=Signika:wght@400;600;700&display=swap');
 
 /* ── Variables de diseño ─────────────────────────────────────── */
 :root {
@@ -45,7 +45,7 @@
   */
   /* Fuentes */
   --font-pixel:   'Nunito', monospace;
-  --font-cuerpo:  'Changa One', 'Nunito', sans-serif;
+  --font-cuerpo:  'Signika', 'Nunito', sans-serif;
 }
 
 /* ── Reset y base ─────────────────────────────────────────────── */
