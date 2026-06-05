@@ -543,7 +543,7 @@ body {
 
 .juego-titulo {
   font-family: var(--font-pixel);
-  font-size: clamp(1.5rem, 2vw, 1.25rem);
+  font-size: clamp(1.5rem, 2vw, 1rem);
   color: var(--amarillo);
   text-align: center;
   flex: 1;
