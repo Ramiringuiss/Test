@@ -3,8 +3,8 @@
    Estética: Minecraft vibrante + pixel art + accesibilidad infantil
    ============================================================ */
 
-/* ── Google Fonts: Press Start 2P (pixel) + Nunito (legible) ── */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&display=swap');
+/* ── Google Fonts: Press Start 2P (pixel) + Nunito (legible) + Changa One (títulos) ── */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&family=Changa+One&display=swap');
 
 /* ── Variables de diseño ─────────────────────────────────────── */
 :root {
@@ -45,7 +45,7 @@
   */
   /* Fuentes */
   --font-pixel:   'Nunito', monospace;
-  --font-cuerpo:  'Nunito', sans-serif;
+  --font-cuerpo:  'Changa One', 'Nunito', sans-serif;
 }
 
 /* ── Reset y base ─────────────────────────────────────────────── */
@@ -148,25 +148,26 @@ body {
   display: block;*/
   padding: 0.5rem;
   /* Caja de fondo para legibilidad sobre imagen */
-  background: rgba(240,231,219,0.95);
+  background: rgba(238, 211, 103, 0.86);
   color: var(--texto-oscuro);
   border-radius: 10px;
-  border: 3px solid rgba(0,0,0,0.12);
-  box-shadow: 0 6px 0 rgba(0,0,0,0.08);
+  border: 3px solid rgba(83, 23, 2);
+  box-shadow: 0 6px 0 rgba(83, 23, 2);
   display: inline-block;
 }
 
 .subtitulo {
   font-size: clamp(1.1rem, 3vw, 1.4rem);
+  font-family: var(--font-pixel);
   color: var(--verde-claro);
   font-weight: 800;
   letter-spacing: 1px;
   /* Caja ligera para mejorar contraste */
-  background: rgba(240,231,219,0.9);
-  color: var(--verde-oscuro);
+  background: rgba(0, 104, 107);
+  color: rgba(235, 206, 42);
   padding: 0.35rem 0.8rem;
   border-radius: 8px;
-  border: 2px solid rgba(0,0,0,0.08);
+  border: 2px solid rgba(6, 29, 12);
   display: inline-block;
 }
 
@@ -825,7 +826,7 @@ body {
    ═══════════════════════════════════════════════════════════════ */
 .btn-bloque {
   font-family: var(--font-pixel);
-  font-size: clamp(0.5rem, 2vw, 0.75rem);
+  font-size: clamp(0.75rem, 2.5vw, 0.95rem);
   padding: 0.8rem 1.4rem;
   border: 3px solid;
   border-radius: var(--radio);
@@ -889,7 +890,7 @@ body {
 }
 
 .btn-icono {
-  font-size: 1.1em;
+  font-size: 1.5em;
 }
 
 /* ═══════════════════════════════════════════════════════════════

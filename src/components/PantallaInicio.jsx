@@ -41,7 +41,7 @@ export default function PantallaInicio({ nombreNino, onJugar }) {
 
       <div className="inicio-contenido">
         <h1 className="titulo-principal">
-          <span className="titulo-pixel">🤖 Mundo mágico</span>
+          <span className="titulo-pixel">Mundo mágico</span>
         </h1>
         <p className="subtitulo">¡Aprende sobre el Perú jugando!</p>
 

@@ -67,7 +67,7 @@ export default function JuegoRopa({ onVolver }) {
     const primeraRegion = regionesAleatorias[0];
     setRetoActualRegion(primeraRegion);
 
-    const msg = `¡Reto 1 de ${regionesAleatorias.length}! Vamos a vestir al amiguito con ropa de la ${primeraRegion}. ¿Listos? 🎯`;
+    const msg = `¡Reto 1 de ${regionesAleatorias.length}! Vamos a vestir al amiguito con ropa de la ${primeraRegion}. ¿Listos?`;
     setRobotMsg(msg);
     hablar(msg);
     setModo("reto");
